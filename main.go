@@ -7,6 +7,7 @@ import (
 	"gostore/logger"
 	"net/http"
 	"os"
+	"path"
 	"strconv"
 	"strings"
 
@@ -60,5 +61,19 @@ func isFlagPassed(name string) bool {
 func genericHandler(w http.ResponseWriter, r *http.Request) {
 	if strings.Contains(r.URL.Path, "/test") {
 		ch.HandleCommand(w, command.Command{Verb: command.TestCmd})
+	} else if r.Method == http.MethodGet {
+		key := path.Base(r.URL.String())
+		fmt.Printf("\nGET: %v", key)
+		ch.HandleCommand(w, command.Command{Verb: command.GetCmd, Args: command.Arguments{Key: key}})
+	} else if r.Method == http.MethodPost {
+		r.ParseForm()
+		for key, value := range r.Form {
+			fmt.Printf("\nPOST: %s = %s", key, value)
+			ch.HandleCommand(w, command.Command{Verb: command.PutCmd, Args: command.Arguments{Key: key, Value: value[0]}})
+		}
+	} else if r.Method == http.MethodDelete {
+		key := path.Base(r.URL.String())
+		fmt.Printf("\nDEL: %v", key)
+		ch.HandleCommand(w, command.Command{Verb: command.DelCmd, Args: command.Arguments{Key: key}})
 	}
 }

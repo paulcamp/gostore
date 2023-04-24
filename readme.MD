@@ -12,10 +12,24 @@ A simple demonstration that serves a key/value store on a specified port
 ### Start the gostore
 `go run ./... -port 8080`
 
-### commands
+### Endpoints
 
+
+TEST
 `curl localhost:8080/test`
+  
 
+POST
+`curl -d "key=k&value=v" -H "Content-Type: application/x-www-form-urlencoded" -X POST http://localhost:8080/post`
+  
+
+GET
+`curl localhost:8080/key`
+  
+
+DELETE
+`curl -X "DELETE" 'http://localhost:8080/key'`
+  
 
 ## Benchmarks
 
