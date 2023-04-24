@@ -2,32 +2,34 @@
 
 A simple demonstration that serves a key/value store on a specified port  
 
-## Features
+## Notes
 
 * thread safe store using [actor model](https://en.wikipedia.org/wiki/Actor_model) 
+* store is volatile (stopping the service empties the store)
 
 
 ## Usage
 
-### Start the gostore
+Start the gostore (specifying port):
+
 `go run ./... -port 8080`
 
-### Endpoints
+## Endpoints
 
 
-TEST
+Test Service is running (HTTP GET):   
 `curl localhost:8080/test`
   
 
-POST
+POST Value:  
 `curl -d "key=k&value=v" -H "Content-Type: application/x-www-form-urlencoded" -X POST http://localhost:8080/post`
   
 
-GET
+GET Value:  
 `curl localhost:8080/key`
   
 
-DELETE
+DELETE Key:  
 `curl -X "DELETE" 'http://localhost:8080/key'`
   
 
